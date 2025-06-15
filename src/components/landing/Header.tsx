@@ -5,41 +5,48 @@ import { GoogleUser, renderGoogleButton } from '@/lib/google-auth';
 
 interface HeaderProps {
   user: GoogleUser | null;
-  onSignIn: () => void;  // Add this line
   onSignOut: () => void;
-  authInitialized: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ user, onSignOut, authInitialized = false }) => {
+const Header: React.FC<HeaderProps> = ({ user, onSignOut }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [shouldRenderGoogleButton, setShouldRenderGoogleButton] = useState(!user);
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [buttonRendered, setButtonRendered] = useState(false);
 
-  // Clear button immediately when user signs in
+  // Handle user state changes
   useEffect(() => {
-    if (user && googleButtonRef.current) {
-      console.log('User signed in - clearing Google button immediately');
-      googleButtonRef.current.innerHTML = '';
-      setButtonRendered(false);
-    }
-  }, [user]);
-
-  // Render button only when conditions are met
-  useEffect(() => {
-    if (!user && authInitialized && googleButtonRef.current && !buttonRendered) {
-      console.log('Rendering Google button - conditions met');
-      googleButtonRef.current.innerHTML = '';
-      renderGoogleButton(googleButtonRef.current);
-      setButtonRendered(true);
-    } else if (user && buttonRendered) {
-      console.log('User exists - ensuring button is cleared');
+    if (user) {
+      // User is logged in - ensure Google button is not rendered
+      setShouldRenderGoogleButton(false);
       if (googleButtonRef.current) {
         googleButtonRef.current.innerHTML = '';
       }
-      setButtonRendered(false);
+    } else {
+      // User is not logged in - show Google button
+      setShouldRenderGoogleButton(true);
     }
-  }, [user, authInitialized, buttonRendered]);
+  }, [user]);
+
+  // Render Google button when needed
+  useEffect(() => {
+    if (shouldRenderGoogleButton && !user && googleButtonRef.current) {
+      // Small delay to ensure DOM is ready
+      const timer = setTimeout(() => {
+        if (googleButtonRef.current && !user) {
+          googleButtonRef.current.innerHTML = '';
+          renderGoogleButton(googleButtonRef.current);
+        }
+      }, 50);
+
+      return () => {
+        clearTimeout(timer);
+        if (googleButtonRef.current) {
+          googleButtonRef.current.innerHTML = '';
+        }
+      };
+    }
+  }, [shouldRenderGoogleButton, user]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -132,45 +139,44 @@ const Header: React.FC<HeaderProps> = ({ user, onSignOut, authInitialized = fals
         <div className="flex items-center space-x-4">
           {user ? (
             // Show user profile and sign out when signed in
-            <div className="flex items-center space-x-4">
+            <>
               {/* Profile Button with Dropdown */}
               <div className="relative" ref={dropdownRef}>
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowDropdown(!showDropdown)}
                   className="relative cursor-pointer"
                 >
-                  {/* Profile Image Button - Use actual user's Google profile picture */}
-                  <div className="w-12 h-12 rounded-full border-2 border-gray-800 shadow-[4px_4px_0_0_rgb(17,24,39)] hover:shadow-[6px_6px_0_0_rgb(17,24,39)] transition-all duration-200 transform hover:-translate-y-1 overflow-hidden bg-white relative">
-                    {user.picture ? (
-                      <img
-                        src={user.picture}
-                        alt={user.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          // Fallback if image fails to load - use user's initial
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent) {
-                            parent.innerHTML = `<div class="w-full h-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">${user.name.charAt(0).toUpperCase()}</div><div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-400 border-2 border-white rounded-full shadow-sm"></div>`;
-                          }
-                        }}
-                      />
-                    ) : (
-                      // Fallback if no picture URL - use user's initial
-                      <div className="w-full h-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">
-                        {user.name.charAt(0).toUpperCase()}
-                      </div>
-                    )}
-
-                    {/* Green Online Indicator - Positioned properly at bottom-right */}
-                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-400 border-2 border-white rounded-full shadow-sm"></div>
+                  {/* Profile Image Button */}
+                  <div className="relative">
+                    <div className="w-12 h-12 rounded-full border-2 border-gray-800 shadow-[4px_4px_0_0_rgb(17,24,39)] hover:shadow-[6px_6px_0_0_rgb(17,24,39)] transition-all duration-200 overflow-hidden bg-white">
+                      {user.picture ? (
+                        <img
+                          src={user.picture}
+                          alt={user.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.innerHTML = `<div class="w-full h-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">${user.name.charAt(0).toUpperCase()}</div>`;
+                            }
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    {/* Green Online Indicator - Outside the overflow container */}
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-gray-800 rounded-full shadow-sm z-10"></div>
                   </div>
                 </motion.div>
 
-                {/* Dropdown Menu - Dynamic width that adjusts to content */}
+                {/* Dropdown Menu */}
                 {showDropdown && (
                   <motion.div
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -213,22 +219,24 @@ const Header: React.FC<HeaderProps> = ({ user, onSignOut, authInitialized = fals
 
               {/* Sign Out Button */}
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onSignOut}
-                className="px-6 py-3 bg-red-500 text-white font-bold rounded-lg border-2 border-gray-800 shadow-[4px_4px_0_0_rgb(17,24,39)] hover:shadow-[6px_6px_0_0_rgb(17,24,39)] transition-all duration-200 transform hover:-translate-y-1"
+                className="px-6 py-3 bg-red-500 text-white font-bold rounded-lg border-2 border-gray-800 shadow-[4px_4px_0_0_rgb(17,24,39)] hover:shadow-[6px_6px_0_0_rgb(17,24,39)] transition-all duration-200"
               >
                 Sign Out
               </motion.button>
+            </>
+          ) : shouldRenderGoogleButton ? (
+            // Show Google Sign In button ONLY when NOT signed in and should render
+            <div className="flex items-center">
+              <div
+                ref={googleButtonRef}
+                className="google-signin-button"
+                style={{ minWidth: '120px', minHeight: '40px' }}
+              />
             </div>
-          ) : (
-            // Show Google Sign In button ONLY when NOT signed in AND auth is initialized
-            authInitialized && (
-              <div className="flex items-center">
-                <div ref={googleButtonRef} className="google-signin-button" />
-              </div>
-            )
-          )}
+          ) : null}
         </div>
       </div>
     </div>
