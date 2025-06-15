@@ -15,17 +15,16 @@ interface KnowleadgeLandingProps {
   authInitialized: boolean;
 }
 
-const KnowleadgeLanding: React.FC<KnowleadgeLandingProps> = ({ 
-  user, 
-  onSignIn, 
-  onSignOut, 
-  authInitialized 
+const KnowleadgeLanding: React.FC<KnowleadgeLandingProps> = ({
+  user,
+  onSignIn,
+  onSignOut,
+  authInitialized
 }) => {
   return (
     <div className="min-h-screen bg-white">
-      <Header 
-        user={user} 
-        onSignIn={onSignIn} 
+      <Header
+        user={user}
         onSignOut={onSignOut}
         authInitialized={authInitialized}
       />
