@@ -5,8 +5,9 @@ import { GoogleUser, renderGoogleButton } from '@/lib/google-auth';
 
 interface HeaderProps {
   user: GoogleUser | null;
+  onSignIn: () => void;  // Add this line
   onSignOut: () => void;
-  authInitialized?: boolean;
+  authInitialized: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({ user, onSignOut, authInitialized = false }) => {
@@ -63,54 +64,54 @@ const Header: React.FC<HeaderProps> = ({ user, onSignOut, authInitialized = fals
         <div className="flex items-center space-x-3">
           <div className="relative">
             <motion.div
-              animate={{ 
+              animate={{
                 rotate: [0, 10, -10, 0],
                 scale: [1, 1.1, 1],
               }}
-              transition={{ 
-                duration: 3, 
+              transition={{
+                duration: 3,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
             >
               <Magnet className="w-8 h-8 text-red-500" />
             </motion.div>
-            
+
             {/* Magnetic field rings */}
             <motion.div
-              animate={{ 
-                scale: [1, 1.3, 1], 
-                opacity: [0.3, 0.6, 0.3] 
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.6, 0.3]
               }}
-              transition={{ 
-                duration: 2, 
+              transition={{
+                duration: 2,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
               className="absolute inset-0 rounded-full border-2 border-red-300"
             />
             <motion.div
-              animate={{ 
-                scale: [1.2, 1.6, 1.2], 
-                opacity: [0.2, 0.4, 0.2] 
+              animate={{
+                scale: [1.2, 1.6, 1.2],
+                opacity: [0.2, 0.4, 0.2]
               }}
-              transition={{ 
-                duration: 2.5, 
+              transition={{
+                duration: 2.5,
                 repeat: Infinity,
                 delay: 0.5,
                 ease: "easeInOut"
               }}
               className="absolute inset-0 rounded-full border-2 border-blue-300"
             />
-            
+
             {/* Dynamic sparks */}
             <motion.div
-              animate={{ 
+              animate={{
                 rotate: [0, 360],
                 scale: [1, 1.2, 1]
               }}
-              transition={{ 
-                duration: 4, 
+              transition={{
+                duration: 4,
                 repeat: Infinity,
                 ease: "linear"
               }}
@@ -163,7 +164,7 @@ const Header: React.FC<HeaderProps> = ({ user, onSignOut, authInitialized = fals
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                     )}
-                    
+
                     {/* Green Online Indicator - Positioned properly at bottom-right */}
                     <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-400 border-2 border-white rounded-full shadow-sm"></div>
                   </div>

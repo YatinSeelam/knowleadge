@@ -15,11 +15,11 @@ let globalCallback: ((user: GoogleUser) => void) | null = null;
 // Initialize Google Auth
 export const initializeGoogleAuth = (callback: (user: GoogleUser) => void) => {
   globalCallback = callback;
-  
+
   // Check for credential in URL parameters (after redirect)
   const urlParams = new URLSearchParams(window.location.search);
   const credential = urlParams.get('credential');
-  
+
   if (credential) {
     console.log('Found credential in URL, processing...');
     handleCredentialResponse({ credential });
@@ -27,15 +27,13 @@ export const initializeGoogleAuth = (callback: (user: GoogleUser) => void) => {
     window.history.replaceState({}, document.title, window.location.pathname);
     return;
   }
-  
+
   // Wait for Google API to load
   const checkGoogleAPI = () => {
     if (window.google && window.google.accounts) {
       console.log('Google API loaded, initializing...');
-      
-      // Get current URL without any parameters
-      const currentUrl = window.location.origin + window.location.pathname;
-      
+
+      // Get current URL without any parameters      
       // Initialize Google Identity Services with popup mode (more reliable)
       window.google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
@@ -44,35 +42,35 @@ export const initializeGoogleAuth = (callback: (user: GoogleUser) => void) => {
         cancel_on_tap_outside: true,
         ux_mode: 'popup',
       });
-      
+
       console.log('Google Auth initialized successfully');
     } else {
       console.log('Google API not ready, retrying...');
       setTimeout(checkGoogleAPI, 100);
     }
   };
-  
+
   checkGoogleAPI();
 };
 
 // Handle credential response from Google
 const handleCredentialResponse = (response: any) => {
   console.log('Google credential response received:', response);
-  
+
   try {
     // Decode the JWT token to get user info
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
     console.log('Decoded payload:', payload);
-    
+
     const user: GoogleUser = {
       id: payload.sub,
       name: payload.name,
       email: payload.email,
       picture: payload.picture,
     };
-    
+
     console.log('Parsed user:', user);
-    
+
     if (globalCallback) {
       globalCallback(user);
     }
@@ -87,9 +85,9 @@ export const renderGoogleButton = (element: HTMLElement) => {
     console.error('No element provided for Google button');
     return;
   }
-  
+
   console.log('Rendering Google button in element:', element);
-  
+
   const checkGoogleAPI = () => {
     if (window.google && window.google.accounts && window.google.accounts.id) {
       try {
@@ -111,14 +109,14 @@ export const renderGoogleButton = (element: HTMLElement) => {
       setTimeout(checkGoogleAPI, 100);
     }
   };
-  
+
   checkGoogleAPI();
 };
 
 // Manual sign-in trigger
 export const signInWithGoogle = () => {
   console.log('Manual sign-in triggered');
-  
+
   if (window.google && window.google.accounts && window.google.accounts.id) {
     try {
       window.google.accounts.id.prompt();
@@ -133,7 +131,7 @@ export const signInWithGoogle = () => {
 // Sign out function
 export const signOut = () => {
   console.log('Google sign out triggered');
-  
+
   if (window.google && window.google.accounts && window.google.accounts.id) {
     try {
       window.google.accounts.id.disableAutoSelect();
