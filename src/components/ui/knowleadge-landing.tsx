@@ -17,7 +17,6 @@ interface KnowleadgeLandingProps {
 
 const KnowleadgeLanding: React.FC<KnowleadgeLandingProps> = ({
   user,
-  onSignIn,
   onSignOut,
   authInitialized
 }) => {
