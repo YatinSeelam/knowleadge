@@ -6,6 +6,7 @@ import { GoogleUser, renderGoogleButton } from '@/lib/google-auth';
 interface HeaderProps {
   user: GoogleUser | null;
   onSignOut: () => void;
+  authInitialized?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({ user, onSignOut }) => {
