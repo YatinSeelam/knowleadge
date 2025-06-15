@@ -1,0 +1,50 @@
+/* Reset and ensure full viewport usage */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Ensure the main container takes full width */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+/* Remove any max-width constraints that might be limiting the layout */
+.max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
+  width: 100%;
+  max-width: none;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (min-width: 1024px) {
+  .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .max-w-7xl {
+    max-width: 1536px;
+  }
+}

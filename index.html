@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knowleadge - AI-Powered Lead Research</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      /* Custom styles for Google Sign-In button */
+      .google-signin-button {
+        display: inline-block;
+      }
+      
+      .google-signin-button > div {
+        border-radius: 8px !important;
+        box-shadow: 4px 4px 0 0 rgb(17, 24, 39) !important;
+        border: 2px solid rgb(17, 24, 39) !important;
+        transition: all 0.2s ease !important;
+        background: #3b82f6 !important;
+      }
+      
+      .google-signin-button > div:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 6px 6px 0 0 rgb(17, 24, 39) !important;
+        background: #2563eb !important;
+      }
+
+      /* Override Google's button text */
+      .google-signin-button iframe {
+        border-radius: 8px !important;
+      }
+
+      /* Custom button styling to match design */
+      .google-signin-button > div > div {
+        background: #3b82f6 !important;
+        color: white !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+      }
+
+      .google-signin-button > div > div > div {
+        color: white !important;
+      }
+
+      .google-signin-button > div > div > div > span {
+        color: white !important;
+        font-weight: bold !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
