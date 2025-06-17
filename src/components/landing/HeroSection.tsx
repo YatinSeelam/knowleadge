@@ -34,7 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
         name: user.name
       });
 
-      const response = await fetch('https://n8n.srv850687.hstgr.cloud/webhook-test/knowleadge', {
+      const response = await fetch('https://n8n.srv850687.hstgr.cloud/webhook/knowleadge', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
