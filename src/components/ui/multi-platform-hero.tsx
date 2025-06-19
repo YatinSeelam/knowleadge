@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Lightbulb, Globe, Linkedin, Instagram, Youtube, Plus, X, BookOpen, Palette, Star, Zap, Heart, Sparkles } from 'lucide-react';
+import { Lightbulb, Globe, Linkedin, Instagram, Youtube, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface GoogleUser {
@@ -29,10 +29,10 @@ interface SparklesCoreProps {
   particleDensity?: number;
 }
 
-const SparklesCore: React.FC<SparklesCoreProps> = ({ 
-  className = "", 
-  particleColor = "#FFE65A", 
-  particleDensity = 50 
+const SparklesCore: React.FC<SparklesCoreProps> = ({
+  className = "",
+  particleColor = "#FFE65A",
+  particleDensity = 50
 }) => {
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number }>>([]);
 
@@ -76,7 +76,7 @@ const SparklesCore: React.FC<SparklesCoreProps> = ({
 // Custom Twitter/X Icon Component
 const TwitterIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
 
@@ -165,7 +165,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
 
   const handleSubmit = async () => {
     const filledUrls = Object.entries(urls).filter(([_, url]) => url.trim());
-    
+
     if (filledUrls.length === 0) {
       alert('Please enter at least one URL');
       return;
@@ -177,7 +177,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
     }
 
     setIsAnimating(true);
-    
+
     try {
       console.log('Sending webhook request with:', {
         urls: filledUrls,
@@ -258,7 +258,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
                 fill="none"
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
-                animate={{ 
+                animate={{
                   pathLength: [0, 1, 1, 0],
                 }}
                 transition={{
@@ -273,7 +273,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
             </motion.svg>
           </span>
         </motion.h2>
-        
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -305,7 +305,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
           <div className="relative p-6 bg-white border-3 border-gray-900 rounded-3xl shadow-[12px_12px_0_0_rgb(17,24,39)] transform hover:rotate-1 transition-all duration-300 overflow-hidden">
             {/* Clean decorative elements */}
             <div className="absolute top-3 right-3 text-2xl opacity-30">⚡</div>
-            
+
             <div className="space-y-5">
               <div className="text-center">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Choose Your Platforms</h3>
@@ -317,15 +317,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
                 {platforms.map((platform) => {
                   const Icon = platform.icon;
                   const isSelected = selectedPlatforms.includes(platform.id);
-                  
+
                   return (
                     <motion.button
                       key={platform.id}
                       onClick={() => togglePlatform(platform.id)}
                       className={`
                         relative p-4 rounded-xl border-2 transition-all duration-200
-                        ${isSelected 
-                          ? `${platform.bgColor} ${platform.borderColor} shadow-md` 
+                        ${isSelected
+                          ? `${platform.bgColor} ${platform.borderColor} shadow-md`
                           : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
                         }
                       `}
@@ -335,7 +335,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
                       <div className="flex flex-col items-center justify-center">
                         <Icon className={`w-8 h-8 ${isSelected ? platform.color : 'text-gray-400'}`} />
                       </div>
-                      
+
                       {isSelected && (
                         <motion.div
                           initial={{ scale: 0 }}
@@ -361,9 +361,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
                   {selectedPlatforms.map((platformId) => {
                     const platform = platforms.find(p => p.id === platformId);
                     if (!platform) return null;
-                    
+
                     const Icon = platform.icon;
-                    
+
                     return (
                       <motion.div
                         key={platformId}
@@ -424,10 +424,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
                     >
                       {/* South Pole - Left */}
                       <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xs font-black text-white bg-blue-600 px-2 py-1 rounded">S</div>
-                      
+
                       {/* North Pole - Right */}
                       <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs font-black text-white bg-red-600 px-2 py-1 rounded">N</div>
-                      
+
                       <span className="relative z-10 flex items-center space-x-2 text-gray-900 font-black">
                         {isAnimating ? (
                           <>
@@ -438,7 +438,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
                           <span>Pull Lead Intel</span>
                         )}
                       </span>
-                      
+
                       {/* Magnetic field lines - only on hover */}
                       <motion.div
                         initial={{ scale: 0, opacity: 0 }}
