@@ -1,14 +1,25 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Lightbulb, Globe, Linkedin, Instagram, Youtube, Plus, X, BookOpen, Palette, Star, Zap, Heart, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { GoogleUser } from '@/lib/google-auth';
 import SparklesCore from './SparklesCore';
+=======
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Lightbulb, Globe } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { GoogleUser } from '@/lib/google-auth';
+import SparklesCore from './SparklesCore';
+import NorthSouthMagnetButton from './NorthSouthMagnetButton';
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
 
 interface HeroSectionProps {
   user: GoogleUser | null;
 }
 
+<<<<<<< HEAD
 interface PlatformType {
   id: string;
   name: string;
@@ -130,6 +141,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
     
     if (filledUrls.length === 0) {
       alert('Please enter at least one URL');
+=======
+const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
+  const [url, setUrl] = useState('');
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!url.trim()) {
+      alert('Please enter a URL');
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
       return;
     }
 
@@ -141,6 +161,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
     setIsAnimating(true);
     
     try {
+<<<<<<< HEAD
       // Create webhook payload with individual URLs and platform info
       const webhookData = {
         email: user.email,
@@ -155,22 +176,48 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
       };
 
       console.log('Sending webhook request with:', webhookData);
+=======
+      console.log('Sending webhook request with:', {
+        url: url,
+        email: user.email,
+        name: user.name
+      });
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
 
       const response = await fetch('https://n8n.srv850687.hstgr.cloud/webhook/knowleadge', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+<<<<<<< HEAD
         body: JSON.stringify(webhookData),
       });
 
+=======
+        body: JSON.stringify({
+          url: url,
+          email: user.email,
+          name: user.name
+        }),
+      });
+
+      console.log('Webhook response status:', response.status);
+
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
       if (response.ok) {
         const result = await response.json();
         console.log('Webhook response:', result);
         alert('Lead research initiated! You will receive results via email.');
+<<<<<<< HEAD
         setUrls({});
         setSelectedPlatforms([]);
       } else {
+=======
+        setUrl(''); // Clear the input after successful submission
+      } else {
+        const errorText = await response.text();
+        console.error('Webhook error response:', errorText);
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
         throw new Error(`Failed to submit request: ${response.status}`);
       }
     } catch (error) {
@@ -211,6 +258,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
         >
           Know your lead
           <br />
+<<<<<<< HEAD
           <span className="relative text-blue-600">
             before you call
             <motion.svg
@@ -239,6 +287,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
               />
             </motion.svg>
           </span>
+=======
+          <span className="text-blue-600">before you call</span>
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
         </motion.h2>
         
         <motion.div
@@ -254,15 +305,26 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
         </motion.div>
         
         <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+<<<<<<< HEAD
           Turn any URL into your competitive advantage.
         </p>
 
         {/* Multi-Platform Input System */}
+=======
+          Every conversation starts with an advantage.
+        </p>
+
+        {/* Input and Button - Ultra Clean Design */}
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
+<<<<<<< HEAD
           className="max-w-3xl mx-auto"
+=======
+          className="max-w-2xl mx-auto"
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
         >
           <div className="relative p-8 bg-white border-3 border-gray-900 rounded-3xl shadow-[12px_12px_0_0_rgb(17,24,39)] transform hover:rotate-1 transition-all duration-300">
             {/* Decorative elements */}
@@ -271,6 +333,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
             
             <div className="space-y-6">
               <div className="text-center">
+<<<<<<< HEAD
                 <h4 className="text-2xl font-black text-gray-900 mb-2">Choose Your Platforms</h4>
                 <p className="text-gray-600">Select the platforms you want to research</p>
               </div>
@@ -437,6 +500,38 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
                   )}
                 </div>
               )}
+=======
+                <h4 className="text-2xl font-black text-gray-900 mb-2">Drop Your Prospect URL</h4>
+                <p className="text-gray-600">LinkedIn, website, social profile - we'll handle the rest</p>
+              </div>
+              
+              <div className="relative">
+                <Input
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  placeholder="https://linkedin.com/in/prospect-name"
+                  className="w-full border-2 border-gray-300 rounded-xl text-lg p-4 pr-12 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSubmit();
+                    }
+                  }}
+                />
+                <Globe className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              </div>
+              
+              <motion.div
+                animate={isAnimating ? { scale: [1, 1.05, 1] } : {}}
+                transition={{ duration: 0.5 }}
+                className="flex justify-center"
+              >
+                <NorthSouthMagnetButton
+                  label="Pull Lead Intel"
+                  onClick={handleSubmit}
+                  disabled={isAnimating}
+                />
+              </motion.div>
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
             </div>
           </div>
         </motion.div>
@@ -461,4 +556,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ user }) => {
   );
 };
 
+<<<<<<< HEAD
 export default HeroSection;
+=======
+export default HeroSection;
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed

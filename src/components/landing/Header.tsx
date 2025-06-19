@@ -244,4 +244,8 @@ const Header: React.FC<HeaderProps> = ({ user, onSignOut }) => {
   );
 };
 
+<<<<<<< HEAD
 export default Header;
+=======
+export default Header;
+>>>>>>> 0dd861cd331cb5e82c0faf78354f39b323f579ed
