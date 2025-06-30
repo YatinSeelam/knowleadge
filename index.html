@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knowleadge - AI-Powered Lead Research</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      /* Custom styles for Google Sign-In button */
+      .google-signin-button {
+        display: inline-block;
+      }
+      
+      .google-signin-button > div {
+        border-radius: 8px !important;
+        box-shadow: 4px 4px 0 0 rgb(17, 24, 39) !important;
+        border: 2px solid rgb(17, 24, 39) !important;
+        transition: all 0.2s ease !important;
+        background: #ffffff !important;
+      }
+      
+      .google-signin-button > div:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 6px 6px 0 0 rgb(17, 24, 39) !important;
+        background: #f8fafc !important;
+      }
+
+      /* Override Google's button styling for better visibility */
+      .google-signin-button iframe {
+        border-radius: 8px !important;
+      }
+
+      /* Force text visibility */
+      .google-signin-button > div > div {
+        background: #ffffff !important;
+        color: #1f2937 !important;
+        font-weight: 600 !important;
+        border-radius: 8px !important;
+      }
+
+      .google-signin-button > div > div > div {
+        color: #1f2937 !important;
+      }
+
+      .google-signin-button > div > div > div > span {
+        color: #1f2937 !important;
+        font-weight: 600 !important;
+      }
+
+      /* Additional overrides for text visibility */
+      .google-signin-button [role="button"] {
+        color: #1f2937 !important;
+      }
+
+      .google-signin-button [role="button"] span {
+        color: #1f2937 !important;
+      }
+
+      /* Override any Google styles that might hide text */
+      .google-signin-button * {
+        color: #1f2937 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
